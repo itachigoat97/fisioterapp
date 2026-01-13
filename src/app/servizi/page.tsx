@@ -208,7 +208,7 @@ export default function ServiziPage() {
       <section className="py-20 bg-green-700">
         <div className="container text-center">
           <h2 className="text-white mb-4">Hai un problema specifico?</h2>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
+          <p className="text-white text-lg max-w-2xl mx-auto mb-8">
             Compila il quiz di valutazione e descrivici la tua situazione.
             Ti contatteremo per una consulenza personalizzata.
           </p>

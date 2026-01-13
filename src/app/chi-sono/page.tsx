@@ -174,7 +174,7 @@ export default function ChiSonoPage() {
       <section className="py-20 bg-green-700">
         <div className="container text-center">
           <h2 className="text-white mb-4">Vuoi conoscermi meglio?</h2>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
+          <p className="text-white text-lg max-w-2xl mx-auto mb-8">
             Prenota una prima visita e parliamo insieme del tuo percorso di guarigione.
             Sarò felice di rispondere a tutte le tue domande.
           </p>
