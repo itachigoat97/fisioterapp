@@ -219,6 +219,17 @@ export default function Footer() {
           <p className="text-green-200/60 text-sm">
             &copy; {currentYear} FisioterApp - Lorenzo Sicari. Tutti i diritti riservati.
           </p>
+          <p className="text-green-200/50 text-xs">
+            Sviluppato da{' '}
+            <a
+              href="https://binary-company.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-300 hover:text-white transition-colors"
+            >
+              Binary-Company
+            </a>
+          </p>
           <p className="text-green-200/40 text-xs">
             P.IVA: 00000000000
           </p>
