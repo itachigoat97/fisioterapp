@@ -228,8 +228,8 @@ export default function Home() {
         </div>
 
         <div className="container relative z-10 text-center">
-          <h2 className="text-white mb-6">Pronto a stare meglio?</h2>
-          <p className="text-white text-xl max-w-2xl mx-auto mb-10">
+          <h2 style={{ color: '#ffffff' }} className="mb-6">Pronto a stare meglio?</h2>
+          <p style={{ color: '#ffffff' }} className="text-xl max-w-2xl mx-auto mb-10">
             Compila il nostro quiz di valutazione e riceverai una consulenza personalizzata
             per il tuo percorso di guarigione.
           </p>
@@ -242,7 +242,7 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Link>
-          <p className="mt-6 text-white text-sm">
+          <p style={{ color: '#ffffff' }} className="mt-6 text-sm">
             Rispondi a 5 semplici domande - Tempo stimato: 2 minuti
           </p>
         </div>

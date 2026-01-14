@@ -57,7 +57,7 @@ export default function Footer() {
                 FisioterApp
               </span>
             </Link>
-            <p className="text-green-200/80 text-sm leading-relaxed mb-6">
+            <p style={{ color: 'rgba(255,255,255,0.9)' }} className="text-sm leading-relaxed mb-6">
               Fisioterapia professionale a domicilio in tutta Roma.
               Trattamenti personalizzati per il tuo benessere.
             </p>
@@ -216,22 +216,20 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="py-6 border-t border-green-800/50 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-green-200/60 text-sm">
+          <p style={{ color: '#ffffff' }} className="text-sm">
             &copy; {currentYear} FisioterApp - Lorenzo Sicari. Tutti i diritti riservati.
           </p>
-          <p className="text-green-200/50 text-xs">
+          <p style={{ color: 'rgba(255,255,255,0.9)' }} className="text-xs">
             Sviluppato da{' '}
             <a
               href="https://binary-company.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-green-300 hover:text-white transition-colors"
+              style={{ color: '#ffffff' }}
+              className="font-semibold hover:text-green-200 transition-colors"
             >
               Binary-Company
             </a>
-          </p>
-          <p className="text-green-200/40 text-xs">
-            P.IVA: 00000000000
           </p>
         </div>
       </div>
