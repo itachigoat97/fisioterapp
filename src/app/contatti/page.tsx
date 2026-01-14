@@ -198,8 +198,8 @@ export default function ContattiPage() {
       {/* CTA */}
       <section className="py-20 bg-green-700">
         <div className="container text-center">
-          <h2 className="text-white mb-4">Preferisci iniziare con il quiz?</h2>
-          <p className="text-white text-lg max-w-2xl mx-auto mb-8">
+          <h2 style={{ color: '#ffffff' }} className="mb-4">Preferisci iniziare con il quiz?</h2>
+          <p style={{ color: '#ffffff' }} className="text-lg max-w-2xl mx-auto mb-8">
             Se non sei sicuro di cosa hai bisogno, compila il nostro quiz di valutazione.
             Ti contatterò io con una proposta personalizzata.
           </p>
