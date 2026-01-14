@@ -226,7 +226,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#ffffff' }}
-              className="font-semibold hover:text-green-200 transition-colors"
+              className="font-semibold underline decoration-2 underline-offset-2 hover:text-green-200 hover:decoration-green-200 transition-colors"
             >
               Binary-Company
             </a>
