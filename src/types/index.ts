@@ -7,6 +7,7 @@ export interface QuizSubmission {
   intensity: number
   cause: string
   name: string
+  age: number | null
   phone: string
   email: string
   notes: string | null
@@ -20,6 +21,7 @@ export interface QuizFormData {
   intensity: number
   cause: string
   name: string
+  age: number | null
   phone: string
   email: string
   notes?: string

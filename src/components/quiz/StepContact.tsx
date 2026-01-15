@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 interface ContactData {
   name: string
+  age: number | null
   phone: string
   email: string
   notes: string
@@ -83,6 +84,23 @@ export default function StepContact({ value, onChange, onSubmit, onBack, isSubmi
             placeholder="Mario Rossi"
           />
           {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+        </div>
+
+        {/* Age */}
+        <div>
+          <label htmlFor="age" className="block text-sm font-medium text-stone-700 mb-1">
+            Età
+          </label>
+          <input
+            type="number"
+            id="age"
+            min="1"
+            max="120"
+            value={value.age || ''}
+            onChange={(e) => onChange({ ...value, age: e.target.value ? parseInt(e.target.value) : null })}
+            className="w-full px-4 py-3 rounded-xl border-2 border-stone-200 focus:border-green-500 focus:outline-none transition-colors"
+            placeholder="45"
+          />
         </div>
 
         {/* Phone */}

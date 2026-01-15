@@ -173,6 +173,12 @@ export default function RequestsTable({ requests, onUpdate }: RequestsTableProps
                 <div className="space-y-3">
                   <h4 className="text-sm font-semibold text-stone-700 uppercase tracking-wide">Problema</h4>
                   <div className="space-y-2 text-sm">
+                    {request.age && (
+                      <div className="flex justify-between">
+                        <span className="text-stone-500">Età:</span>
+                        <span className="font-medium">{request.age} anni</span>
+                      </div>
+                    )}
                     <div className="flex justify-between">
                       <span className="text-stone-500">Zona dolore:</span>
                       <span className="font-medium">{painZoneLabels[request.pain_zone] || request.pain_zone}</span>

@@ -25,6 +25,7 @@ export default function QuizContainer() {
     intensity: 5,
     cause: '',
     name: '',
+    age: null,
     phone: '',
     email: '',
     notes: '',
@@ -55,6 +56,7 @@ export default function QuizContainer() {
           intensity: formData.intensity,
           cause: formData.cause,
           name: formData.name,
+          age: formData.age,
           phone: formData.phone,
           email: formData.email,
           notes: formData.notes || null,
@@ -151,6 +153,7 @@ export default function QuizContainer() {
           <StepContact
             value={{
               name: formData.name,
+              age: formData.age,
               phone: formData.phone,
               email: formData.email,
               notes: formData.notes || '',
@@ -158,6 +161,7 @@ export default function QuizContainer() {
             onChange={(value) => setFormData({
               ...formData,
               name: value.name,
+              age: value.age,
               phone: value.phone,
               email: value.email,
               notes: value.notes,

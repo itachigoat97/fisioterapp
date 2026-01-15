@@ -17,6 +17,7 @@ export default function ExportButton({ requests }: ExportButtonProps) {
     const headers = [
       'Data',
       'Nome',
+      'Età',
       'Telefono',
       'Email',
       'Zona Dolore',
@@ -30,6 +31,7 @@ export default function ExportButton({ requests }: ExportButtonProps) {
     const rows = requests.map((r) => [
       new Date(r.created_at).toLocaleDateString('it-IT'),
       r.name,
+      r.age?.toString() || '',
       r.phone,
       r.email,
       r.pain_zone,
