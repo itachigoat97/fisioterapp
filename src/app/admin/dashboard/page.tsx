@@ -114,9 +114,9 @@ export default function AdminDashboardPage() {
         </div>
       </header>
 
-      <div className="container py-8">
+      <div className="container pt-10 pb-8">
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {(['tutti', 'nuovo', 'contattato', 'completato'] as const).map((status, index) => (
             <button
               key={status}
