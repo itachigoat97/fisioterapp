@@ -166,32 +166,6 @@ export default function ContattiPage() {
         </div>
       </section>
 
-      {/* Map Placeholder */}
-      <section className="py-20">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-10">
-              <span className="text-green-600 font-medium text-sm uppercase tracking-wider">Area di Servizio</span>
-              <h2 className="mt-3">Dove posso raggiungerti</h2>
-            </div>
-
-            {/* Map Placeholder */}
-            <div className="aspect-[16/9] rounded-3xl bg-gradient-to-br from-green-100 to-green-200 overflow-hidden relative">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center text-green-700">
-                  <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                  </svg>
-                  <p className="text-lg font-medium">Mappa Roma</p>
-                  <p className="text-sm opacity-70">Servizio a domicilio in tutta l&apos;area</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-20 bg-green-700">
         <div className="container text-center">
