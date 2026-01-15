@@ -9,16 +9,28 @@ interface RequestsTableProps {
   onUpdate: () => void
 }
 
-const statusColors = {
-  nuovo: 'bg-blue-100 text-blue-700',
-  contattato: 'bg-yellow-100 text-yellow-700',
-  completato: 'bg-green-100 text-green-700',
-}
-
-const statusLabels = {
-  nuovo: 'Nuovo',
-  contattato: 'Contattato',
-  completato: 'Completato',
+const statusConfig = {
+  nuovo: {
+    bg: 'bg-blue-50',
+    text: 'text-blue-700',
+    border: 'border-blue-200',
+    dot: 'bg-blue-500',
+    label: 'Nuovo'
+  },
+  contattato: {
+    bg: 'bg-amber-50',
+    text: 'text-amber-700',
+    border: 'border-amber-200',
+    dot: 'bg-amber-500',
+    label: 'Contattato'
+  },
+  completato: {
+    bg: 'bg-green-50',
+    text: 'text-green-700',
+    border: 'border-green-200',
+    dot: 'bg-green-500',
+    label: 'Completato'
+  },
 }
 
 const painZoneLabels: Record<string, string> = {
@@ -67,9 +79,28 @@ export default function RequestsTable({ requests, onUpdate }: RequestsTableProps
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('it-IT', {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+    if (diffHours < 1) return 'Adesso'
+    if (diffHours < 24) return `${diffHours}h fa`
+    if (diffDays === 1) return 'Ieri'
+    if (diffDays < 7) return `${diffDays}g fa`
+
+    return date.toLocaleDateString('it-IT', {
       day: '2-digit',
-      month: '2-digit',
+      month: 'short',
+    })
+  }
+
+  const formatFullDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('it-IT', {
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
@@ -78,159 +109,238 @@ export default function RequestsTable({ requests, onUpdate }: RequestsTableProps
 
   if (requests.length === 0) {
     return (
-      <div className="text-center py-12 bg-white rounded-2xl border border-stone-200">
-        <svg className="w-12 h-12 text-stone-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-        </svg>
-        <p className="text-stone-500">Nessuna richiesta trovata</p>
+      <div className="text-center py-16 bg-white rounded-2xl border border-stone-200/50">
+        <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mx-auto mb-4">
+          <svg className="w-8 h-8 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+          </svg>
+        </div>
+        <h3 className="text-lg font-semibold text-stone-900 mb-1">Nessuna richiesta</h3>
+        <p className="text-stone-500">Non ci sono richieste che corrispondono ai filtri</p>
       </div>
     )
   }
 
   return (
-    <div className="space-y-4">
-      {requests.map((request) => (
-        <div
-          key={request.id}
-          className="bg-white rounded-2xl border border-stone-200 overflow-hidden transition-shadow hover:shadow-md"
-        >
-          {/* Header Row */}
+    <div className="space-y-3">
+      {requests.map((request, index) => {
+        const config = statusConfig[request.status]
+        const isExpanded = expandedId === request.id
+
+        return (
           <div
-            className="p-4 cursor-pointer flex items-center justify-between gap-4"
-            onClick={() => setExpandedId(expandedId === request.id ? null : request.id)}
+            key={request.id}
+            className={`bg-white rounded-2xl border overflow-hidden transition-all duration-300 ${
+              isExpanded
+                ? 'shadow-lg border-green-200 ring-1 ring-green-100'
+                : 'border-stone-200/50 hover:shadow-md hover:border-stone-300'
+            }`}
+            style={{ animationDelay: `${index * 30}ms` }}
           >
-            <div className="flex items-center gap-4 min-w-0">
-              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                <span className="text-green-700 font-semibold">
-                  {request.name.charAt(0).toUpperCase()}
-                </span>
+            {/* Header Row */}
+            <div
+              className="p-4 cursor-pointer flex items-center justify-between gap-4 group"
+              onClick={() => setExpandedId(isExpanded ? null : request.id)}
+            >
+              <div className="flex items-center gap-4 min-w-0">
+                {/* Avatar con iniziale */}
+                <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                  isExpanded
+                    ? 'bg-gradient-to-br from-green-500 to-green-600 shadow-lg shadow-green-500/20'
+                    : 'bg-gradient-to-br from-stone-100 to-stone-200 group-hover:from-green-100 group-hover:to-green-200'
+                }`}>
+                  <span className={`text-lg font-bold transition-colors ${
+                    isExpanded ? 'text-white' : 'text-stone-600 group-hover:text-green-700'
+                  }`}>
+                    {request.name.charAt(0).toUpperCase()}
+                  </span>
+                  {/* Status dot */}
+                  <div className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white ${config.dot}`} />
+                </div>
+
+                {/* Info */}
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-stone-900 truncate">{request.name}</h3>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-stone-500">{formatDate(request.created_at)}</span>
+                    <span className="text-stone-300">•</span>
+                    <span className="text-stone-500 truncate">{painZoneLabels[request.pain_zone] || request.pain_zone}</span>
+                  </div>
+                </div>
               </div>
-              <div className="min-w-0">
-                <h3 className="font-semibold text-stone-900 truncate">{request.name}</h3>
-                <p className="text-sm text-stone-500">{formatDate(request.created_at)}</p>
+
+              <div className="flex items-center gap-3 flex-shrink-0">
+                {/* Status badge */}
+                <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${config.bg} ${config.text} ${config.border}`}>
+                  {config.label}
+                </span>
+
+                {/* Expand icon */}
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                  isExpanded ? 'bg-green-100 rotate-180' : 'bg-stone-100 group-hover:bg-stone-200'
+                }`}>
+                  <svg
+                    className={`w-4 h-4 transition-colors ${isExpanded ? 'text-green-600' : 'text-stone-500'}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 flex-shrink-0">
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[request.status]}`}>
-                {statusLabels[request.status]}
-              </span>
-              <span className="text-stone-400">
-                <svg
-                  className={`w-5 h-5 transition-transform ${expandedId === request.id ? 'rotate-180' : ''}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </span>
+            {/* Expanded Details */}
+            <div className={`transition-all duration-300 ease-in-out ${
+              isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+            }`}>
+              <div className="px-4 pb-4 border-t border-stone-100">
+                {/* Full date */}
+                <p className="text-xs text-stone-400 pt-4 mb-4 capitalize">
+                  {formatFullDate(request.created_at)}
+                </p>
+
+                <div className="grid sm:grid-cols-2 gap-6">
+                  {/* Contact Info */}
+                  <div className="space-y-4">
+                    <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider">Contatti</h4>
+                    <div className="space-y-2">
+                      <a
+                        href={`tel:${request.phone}`}
+                        className="flex items-center gap-3 p-3 rounded-xl bg-stone-50 hover:bg-green-50 text-stone-700 hover:text-green-700 transition-colors group"
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                          </svg>
+                        </div>
+                        <span className="font-medium">{request.phone}</span>
+                      </a>
+
+                      <a
+                        href={`mailto:${request.email}`}
+                        className="flex items-center gap-3 p-3 rounded-xl bg-stone-50 hover:bg-green-50 text-stone-700 hover:text-green-700 transition-colors group"
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                          </svg>
+                        </div>
+                        <span className="font-medium truncate">{request.email}</span>
+                      </a>
+
+                      <a
+                        href={`https://wa.me/${request.phone.replace(/\D/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 p-3 rounded-xl bg-green-50 hover:bg-green-100 text-green-700 transition-colors group"
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                          </svg>
+                        </div>
+                        <span className="font-semibold">Apri WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Quiz Data */}
+                  <div className="space-y-4">
+                    <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider">Dettagli Problema</h4>
+                    <div className="bg-stone-50 rounded-xl p-4 space-y-3">
+                      {request.age && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-stone-500 text-sm">Età</span>
+                          <span className="font-semibold text-stone-900">{request.age} anni</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between items-center">
+                        <span className="text-stone-500 text-sm">Zona</span>
+                        <span className="font-semibold text-stone-900">{painZoneLabels[request.pain_zone] || request.pain_zone}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-stone-500 text-sm">Durata</span>
+                        <span className="font-semibold text-stone-900">{durationLabels[request.duration] || request.duration}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-stone-500 text-sm">Intensità</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-20 h-2 rounded-full bg-stone-200 overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all ${
+                                request.intensity <= 3 ? 'bg-green-500' :
+                                request.intensity <= 6 ? 'bg-amber-500' : 'bg-red-500'
+                              }`}
+                              style={{ width: `${request.intensity * 10}%` }}
+                            />
+                          </div>
+                          <span className="font-semibold text-stone-900">{request.intensity}/10</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-stone-500 text-sm">Causa</span>
+                        <span className="font-semibold text-stone-900">{causeLabels[request.cause] || request.cause}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Notes */}
+                  {request.notes && (
+                    <div className="sm:col-span-2 space-y-2">
+                      <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider">Note del paziente</h4>
+                      <div className="bg-amber-50 border border-amber-100 rounded-xl p-4">
+                        <p className="text-stone-700 text-sm leading-relaxed">{request.notes}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Status Actions */}
+                  <div className="sm:col-span-2 pt-4 border-t border-stone-100">
+                    <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Aggiorna stato</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {(['nuovo', 'contattato', 'completato'] as const).map((status) => {
+                        const btnConfig = statusConfig[status]
+                        const isActive = request.status === status
+                        const isUpdating = updatingId === request.id
+
+                        return (
+                          <button
+                            key={status}
+                            onClick={() => handleStatusChange(request.id, status)}
+                            disabled={isActive || isUpdating}
+                            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                              isActive
+                                ? `${btnConfig.bg} ${btnConfig.text} border-2 ${btnConfig.border} cursor-default`
+                                : 'bg-stone-100 text-stone-600 hover:bg-stone-200 border-2 border-transparent'
+                            } disabled:opacity-50`}
+                          >
+                            {isUpdating ? (
+                              <span className="flex items-center gap-2">
+                                <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                </svg>
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-2">
+                                {isActive && <span className={`w-2 h-2 rounded-full ${btnConfig.dot}`} />}
+                                {btnConfig.label}
+                              </span>
+                            )}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* Expanded Details */}
-          {expandedId === request.id && (
-            <div className="px-4 pb-4 border-t border-stone-100">
-              <div className="pt-4 grid sm:grid-cols-2 gap-4">
-                {/* Contact Info */}
-                <div className="space-y-3">
-                  <h4 className="text-sm font-semibold text-stone-700 uppercase tracking-wide">Contatto</h4>
-                  <div className="space-y-2">
-                    <a
-                      href={`tel:${request.phone}`}
-                      className="flex items-center gap-2 text-green-600 hover:text-green-700"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                      </svg>
-                      {request.phone}
-                    </a>
-                    <a
-                      href={`mailto:${request.email}`}
-                      className="flex items-center gap-2 text-green-600 hover:text-green-700"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                      </svg>
-                      {request.email}
-                    </a>
-                    <a
-                      href={`https://wa.me/${request.phone.replace(/\D/g, '')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-green-600 hover:text-green-700"
-                    >
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                      </svg>
-                      WhatsApp
-                    </a>
-                  </div>
-                </div>
-
-                {/* Quiz Data */}
-                <div className="space-y-3">
-                  <h4 className="text-sm font-semibold text-stone-700 uppercase tracking-wide">Problema</h4>
-                  <div className="space-y-2 text-sm">
-                    {request.age && (
-                      <div className="flex justify-between">
-                        <span className="text-stone-500">Età:</span>
-                        <span className="font-medium">{request.age} anni</span>
-                      </div>
-                    )}
-                    <div className="flex justify-between">
-                      <span className="text-stone-500">Zona dolore:</span>
-                      <span className="font-medium">{painZoneLabels[request.pain_zone] || request.pain_zone}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-stone-500">Durata:</span>
-                      <span className="font-medium">{durationLabels[request.duration] || request.duration}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-stone-500">Intensità:</span>
-                      <span className="font-medium">{request.intensity}/10</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-stone-500">Causa:</span>
-                      <span className="font-medium">{causeLabels[request.cause] || request.cause}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Notes */}
-                {request.notes && (
-                  <div className="sm:col-span-2 space-y-2">
-                    <h4 className="text-sm font-semibold text-stone-700 uppercase tracking-wide">Note</h4>
-                    <p className="text-stone-600 text-sm bg-stone-50 rounded-lg p-3">{request.notes}</p>
-                  </div>
-                )}
-
-                {/* Status Actions */}
-                <div className="sm:col-span-2 pt-4 border-t border-stone-100">
-                  <h4 className="text-sm font-semibold text-stone-700 uppercase tracking-wide mb-3">Cambia stato</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {(['nuovo', 'contattato', 'completato'] as const).map((status) => (
-                      <button
-                        key={status}
-                        onClick={() => handleStatusChange(request.id, status)}
-                        disabled={request.status === status || updatingId === request.id}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          request.status === status
-                            ? statusColors[status] + ' cursor-default'
-                            : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-                        } disabled:opacity-50`}
-                      >
-                        {updatingId === request.id ? '...' : statusLabels[status]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
