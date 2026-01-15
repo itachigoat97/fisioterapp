@@ -57,7 +57,7 @@ const packages = [
 const faqs = [
   {
     question: 'Il prezzo include lo spostamento a domicilio?',
-    answer: 'Sì, il prezzo indicato è tutto incluso. Non ci sono costi aggiuntivi per lo spostamento in tutta Roma e provincia.',
+    answer: 'Sì, il prezzo indicato è tutto incluso. Non ci sono costi aggiuntivi per lo spostamento a Roma.',
   },
   {
     question: 'Accettate pagamenti elettronici?',

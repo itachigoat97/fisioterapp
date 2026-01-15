@@ -60,7 +60,7 @@ const benefits = [
   },
   {
     title: 'Tutta Roma',
-    description: 'Copertura completa di Roma e provincia per raggiungerti ovunque.',
+    description: 'Copertura completa di Roma per raggiungerti ovunque.',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />

@@ -74,7 +74,7 @@ const services = [
   {
     id: 'domicilio',
     title: 'Visite a Domicilio',
-    description: 'Tutti i nostri servizi sono disponibili comodamente a casa tua. Copriamo Roma e tutta la provincia con massima flessibilità oraria.',
+    description: 'Tutti i nostri servizi sono disponibili comodamente a casa tua. Copriamo Roma con massima flessibilità oraria.',
     details: [
       'Nessuno spostamento necessario',
       'Orari flessibili (anche sera/weekend)',

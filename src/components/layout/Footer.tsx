@@ -164,7 +164,7 @@ export default function Footer() {
                   />
                 </svg>
                 <span className="text-green-200/70 text-sm">
-                  Roma e provincia<br />
+                  Roma<br />
                   Servizio a domicilio
                 </span>
               </li>
