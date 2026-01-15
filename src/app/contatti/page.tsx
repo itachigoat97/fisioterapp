@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 const contactMethods = [
   {
     title: 'Telefono',
-    value: '+39 333 123 4567',
-    href: 'tel:+393331234567',
+    value: '+39 366 199 3137',
+    href: 'tel:+393661993137',
     description: 'Chiamami per informazioni o prenotazioni',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -20,8 +20,8 @@ const contactMethods = [
   },
   {
     title: 'WhatsApp',
-    value: '+39 333 123 4567',
-    href: 'https://wa.me/393331234567',
+    value: '+39 366 199 3137',
+    href: 'https://wa.me/393661993137',
     description: 'Scrivimi su WhatsApp per risposta rapida',
     icon: (
       <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
@@ -31,8 +31,8 @@ const contactMethods = [
   },
   {
     title: 'Email',
-    value: 'info@fisioterapp.it',
-    href: 'mailto:info@fisioterapp.it',
+    value: 'lollo.sicari2003@gmail.com',
+    href: 'mailto:lollo.sicari2003@gmail.com',
     description: 'Per richieste dettagliate o documentazione',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

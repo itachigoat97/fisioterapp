@@ -87,7 +87,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://wa.me/393331234567"
+                href="https://wa.me/393661993137"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
@@ -183,10 +183,10 @@ export default function Footer() {
                   />
                 </svg>
                 <a
-                  href="tel:+393331234567"
+                  href="tel:+393661993137"
                   className="text-green-200/70 hover:text-white text-sm transition-colors"
                 >
-                  +39 333 123 4567
+                  +39 366 199 3137
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -204,10 +204,10 @@ export default function Footer() {
                   />
                 </svg>
                 <a
-                  href="mailto:info@fisioterapp.it"
+                  href="mailto:lollo.sicari2003@gmail.com"
                   className="text-green-200/70 hover:text-white text-sm transition-colors"
                 >
-                  info@fisioterapp.it
+                  lollo.sicari2003@gmail.com
                 </a>
               </li>
             </ul>
