@@ -5,7 +5,7 @@ import Footer from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: {
-    default: 'FisioterApp - Fisioterapia a Domicilio Roma | Lorenzo Sicari',
+    default: 'FisioterApp - Fisioterapia a Domicilio Roma',
     template: '%s | FisioterApp',
   },
   description:
@@ -17,9 +17,8 @@ export const metadata: Metadata = {
     'riabilitazione roma',
     'mal di schiena roma',
     'massoterapia roma',
-    'lorenzo sicari fisioterapista',
   ],
-  authors: [{ name: 'Lorenzo Sicari' }],
+  authors: [{ name: 'FisioterApp' }],
   creator: 'FisioterApp',
   openGraph: {
     type: 'website',

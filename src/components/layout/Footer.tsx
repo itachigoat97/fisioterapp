@@ -8,7 +8,7 @@ const footerLinks = {
     { href: '/servizi#domicilio', label: 'Visite a Domicilio' },
   ],
   info: [
-    { href: '/chi-sono', label: 'Chi Sono' },
+    { href: '/chi-siamo', label: 'Chi Siamo' },
     { href: '/prezzi', label: 'Prezzi' },
     { href: '/contatti', label: 'Contatti' },
     { href: '/quiz', label: 'Prenota Visita' },
@@ -217,7 +217,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-green-800/50 flex flex-col md:flex-row items-center justify-between gap-4">
           <p style={{ color: '#ffffff' }} className="text-sm">
-            &copy; {currentYear} FisioterApp - Lorenzo Sicari. Tutti i diritti riservati.
+            &copy; 2026 FisioterApp. Tutti i diritti riservati.
           </p>
           <p style={{ color: 'rgba(255,255,255,0.9)' }} className="text-xs">
             Sviluppato da{' '}

@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Contatti',
-  description: 'Contatta Lorenzo Sicari fisioterapista a Roma. Telefono, WhatsApp, email. Servizio a domicilio in tutta Roma e provincia.',
+  description: 'Contatta FisioterApp per fisioterapia a domicilio a Roma. Telefono, WhatsApp, email. Servizio in tutta Roma e provincia.',
 }
 
 const contactMethods = [
@@ -119,8 +119,8 @@ export default function ContattiPage() {
               <span className="text-green-600 font-medium text-sm uppercase tracking-wider">Zone Coperte</span>
               <h2 className="mt-3 mb-6">Roma e tutta la provincia</h2>
               <p className="text-lg text-stone-600 mb-8">
-                Raggiungo i miei pazienti in tutta Roma e nei comuni limitrofi.
-                Ecco alcune delle zone principali dove opero regolarmente:
+                I nostri fisioterapisti raggiungono i pazienti in tutta Roma e nei comuni limitrofi.
+                Ecco alcune delle zone principali dove operiamo regolarmente:
               </p>
 
               <div className="flex flex-wrap gap-2">

@@ -75,10 +75,6 @@ const faqs = [
     question: 'Cosa succede se devo annullare un appuntamento?',
     answer: 'Puoi annullare o spostare gratuitamente con almeno 24 ore di preavviso. Cancellazioni tardive comportano il 50% del costo.',
   },
-  {
-    question: 'È possibile richiedere più sedute a settimana?',
-    answer: 'Assolutamente sì. Per alcune condizioni potrebbe essere consigliato un trattamento intensivo con 2-3 sedute settimanali.',
-  },
 ]
 
 export default function PrezziPage() {
