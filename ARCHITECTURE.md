@@ -22,7 +22,9 @@ src/
 │   ├── quiz/page.tsx        # Quiz prenotazione
 │   └── admin/
 │       ├── page.tsx         # Login admin
-│       └── dashboard/page.tsx # Dashboard richieste
+│       └── dashboard/
+│           ├── page.tsx     # Dashboard richieste
+│           └── content/page.tsx # CMS gestione contenuti
 ├── components/
 │   ├── layout/
 │   │   ├── Header.tsx       # Navigazione responsive
@@ -36,14 +38,19 @@ src/
 │   │   ├── StepCause.tsx     # Step 4: causa
 │   │   └── StepContact.tsx   # Step 5: dati contatto
 │   └── admin/
-│       ├── RequestsTable.tsx # Tabella richieste espandibile
-│       └── ExportButton.tsx  # Export CSV
+│       ├── RequestsTable.tsx  # Tabella richieste espandibile
+│       ├── ExportButton.tsx   # Export CSV
+│       ├── ContentEditor.tsx  # Editor CMS principale
+│       └── ContentSection.tsx # Sezione accordion CMS
 ├── lib/
-│   └── supabase/
-│       ├── client.ts        # Client browser
-│       └── server.ts        # Client server
+│   ├── supabase/
+│   │   ├── client.ts        # Client browser
+│   │   └── server.ts        # Client server
+│   ├── content.ts           # Funzioni fetch/save contenuti CMS
+│   ├── default-content.ts   # Contenuti fallback (hardcoded)
+│   └── storage.ts           # Upload immagini CMS
 └── types/
-    └── index.ts             # TypeScript types
+    └── index.ts             # TypeScript types (Quiz + CMS)
 ```
 
 ## Database Schema
@@ -63,9 +70,27 @@ src/
 | notes | TEXT | Note (nullable) |
 | status | TEXT | nuovo/contattato/completato |
 
-### RLS Policies
+### RLS Policies (quiz_submissions)
 - **INSERT**: Pubblico (chiunque può inviare quiz)
 - **SELECT/UPDATE**: Solo utenti autenticati
+
+### Tabella: site_content (CMS)
+| Colonna | Tipo | Descrizione |
+|---------|------|-------------|
+| id | UUID | PK auto-generated |
+| page | VARCHAR(50) | Nome pagina (home, servizi, prezzi, chi-siamo, contatti) |
+| section | VARCHAR(50) | Sezione (hero, services, cta, etc.) |
+| content_key | VARCHAR(100) | Chiave contenuto (title, subtitle, etc.) |
+| content_value | TEXT | Valore contenuto |
+| content_type | VARCHAR(20) | Tipo (text, json, image) |
+| sort_order | INT | Ordine visualizzazione |
+| updated_at | TIMESTAMP | Data ultima modifica |
+
+**Unique constraint**: (page, section, content_key)
+
+### RLS Policies (site_content)
+- **SELECT**: Pubblico (contenuti visibili a tutti)
+- **INSERT/UPDATE/DELETE**: Solo utenti autenticati
 
 ## Design System
 
@@ -93,6 +118,15 @@ src/
 4. Visualizza richieste con filtri
 5. Cambia stato (nuovo → contattato → completato)
 6. Export CSV
+
+### CMS Flow (Gestione Contenuti)
+1. Admin accede a /admin/dashboard/content
+2. Seleziona la pagina da modificare (Home, Servizi, Prezzi, Chi Siamo, Contatti)
+3. Espande le sezioni (Hero, Services, CTA, etc.)
+4. Modifica i testi nei campi
+5. Clicca "Salva Modifiche"
+6. I contenuti vengono salvati nel DB
+7. Le pagine pubbliche mostrano i nuovi contenuti
 
 ## Configurazione
 
