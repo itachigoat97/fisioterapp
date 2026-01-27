@@ -86,6 +86,11 @@ export default function BookingsPage() {
     return new Date(dateString) < new Date()
   }
 
+  const isValidDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return !isNaN(date.getTime())
+  }
+
   const formatBookingDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('it-IT', {
       weekday: 'long',
@@ -292,7 +297,7 @@ export default function BookingsPage() {
                           ? 'bg-stone-100 text-stone-400'
                           : 'bg-purple-50 text-purple-700'
                       }`}>
-                        {booking.booking_date && (
+                        {booking.booking_date && isValidDate(booking.booking_date) ? (
                           <>
                             <span className="text-xs font-medium uppercase opacity-80">
                               {new Date(booking.booking_date).toLocaleDateString('it-IT', { month: 'short' })}
@@ -301,6 +306,8 @@ export default function BookingsPage() {
                               {new Date(booking.booking_date).getDate()}
                             </span>
                           </>
+                        ) : (
+                          <span className="text-xs text-center">Data<br/>non valida</span>
                         )}
                         {imminente && (
                           <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-red-500 animate-pulse" />
@@ -323,7 +330,7 @@ export default function BookingsPage() {
                           )}
                         </div>
                         <div className="flex items-center gap-2 text-sm text-stone-500">
-                          {booking.booking_date && (
+                          {booking.booking_date && isValidDate(booking.booking_date) && (
                             <>
                               <span className="capitalize">{formatShortDate(booking.booking_date)}</span>
                               <span className="text-stone-300">|</span>
