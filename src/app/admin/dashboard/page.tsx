@@ -7,12 +7,13 @@ import type { QuizSubmission } from '@/types'
 import RequestsTable from '@/components/admin/RequestsTable'
 import ExportButton from '@/components/admin/ExportButton'
 
-type StatusFilter = 'tutti' | 'nuovo' | 'contattato' | 'completato'
+type StatusFilter = 'tutti' | 'nuovo' | 'contattato' | 'prenotato' | 'completato'
 
 const statusConfig = {
   tutti: { label: 'Tutte', icon: '📋', gradient: 'from-stone-500 to-stone-600' },
   nuovo: { label: 'Nuove', icon: '🔵', gradient: 'from-blue-500 to-blue-600' },
   contattato: { label: 'Contattate', icon: '🟡', gradient: 'from-amber-500 to-amber-600' },
+  prenotato: { label: 'Prenotate', icon: '🟣', gradient: 'from-purple-500 to-purple-600' },
   completato: { label: 'Completate', icon: '🟢', gradient: 'from-green-500 to-green-600' },
 }
 
@@ -74,6 +75,7 @@ export default function AdminDashboardPage() {
     tutti: requests.length,
     nuovo: requests.filter((r) => r.status === 'nuovo').length,
     contattato: requests.filter((r) => r.status === 'contattato').length,
+    prenotato: requests.filter((r) => r.status === 'prenotato').length,
     completato: requests.filter((r) => r.status === 'completato').length,
   }
 
@@ -125,6 +127,15 @@ export default function AdminDashboardPage() {
               Richieste
             </div>
             <a
+              href="/admin/dashboard/bookings"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-stone-600 hover:bg-stone-100 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+              </svg>
+              Prenotazioni
+            </a>
+            <a
               href="/admin/dashboard/content"
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-stone-600 hover:bg-stone-100 transition-colors"
             >
@@ -137,8 +148,8 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {(['tutti', 'nuovo', 'contattato', 'completato'] as const).map((status, index) => (
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
+          {(['tutti', 'nuovo', 'contattato', 'prenotato', 'completato'] as const).map((status, index) => (
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
@@ -169,7 +180,8 @@ export default function AdminDashboardPage() {
               {status !== 'tutti' && counts[status] > 0 && statusFilter !== status && (
                 <div className={`absolute top-3 right-3 w-3 h-3 rounded-full ${
                   status === 'nuovo' ? 'bg-blue-500' :
-                  status === 'contattato' ? 'bg-amber-500' : 'bg-green-500'
+                  status === 'contattato' ? 'bg-amber-500' :
+                  status === 'prenotato' ? 'bg-purple-500' : 'bg-green-500'
                 } ${status === 'nuovo' ? 'animate-pulse' : ''}`} />
               )}
             </button>

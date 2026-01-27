@@ -11,7 +11,8 @@ export interface QuizSubmission {
   phone: string
   email: string
   notes: string | null
-  status: 'nuovo' | 'contattato' | 'completato'
+  status: 'nuovo' | 'contattato' | 'prenotato' | 'completato'
+  booking_date: string | null
 }
 
 // Quiz form data (without id, created_at, status)
